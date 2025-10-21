@@ -1,9 +1,9 @@
 Para instalar as dependências necessárias para iniciar este processo, siga os passos abaixo no terminal:
 
--Instala toda as dependências necessárias para iniciar a aplicação:
+### 1. -Instala toda as dependências necessárias para iniciar a aplicação:
 npm install 
 
--Após instalar as dependências, para iniciar a aplicação, execute o seguinte comando no terminal:
+### 2. -Após instalar as dependências, para iniciar a aplicação, execute o seguinte comando no terminal:
 node index.js
 
 
