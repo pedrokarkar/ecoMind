@@ -26,9 +26,9 @@ com o intuito de demonstrar tudo o que aprendemos ao longo deste ano.
 - Pedro Antonio Ballan Djekem Karkar
 
 <p>para alterar no github:</p>
-    -git add .
-    -git commit -m "mensagem"
-    -git push
+    -git add . <br>
+    -git commit -m "mensagem" <br>
+    -git push <br>
 
 <p>para puxar do github:</p>
    - git pull
