@@ -1,11 +1,16 @@
-Para instalar as dependências necessárias para iniciar este processo, siga os passos abaixo no terminal:
+<h1>EcoMind</h1>
+
+<h3>Para instalar as dependências necessárias para iniciar este processo, siga os passos abaixo no terminal:</h3>
 
 ### 1. -Instala toda as dependências necessárias para iniciar a aplicação:
-npm install 
+```console
+npm install
+```
 
 ### 2. -Após instalar as dependências, para iniciar a aplicação, execute o seguinte comando no terminal:
-node index.js
-
+```console
+npm start
+```
 
 Este projeto foi desenvolvido com o objetivo de criar uma plataforma web focada na promoção da sustentabilidade e na conscientização ambiental. 
 A aplicação permite que os usuários se registrem, realizem login e acessem conteúdos relacionados a práticas sustentáveis, dicas ecológicas e notícias 
