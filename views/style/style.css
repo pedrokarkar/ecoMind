@@ -1,0 +1,35 @@
+    body {
+    padding-top: 80px; 
+    }
+
+    #header.hidden {
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-in-out;
+    }
+
+    .bg-primary-custom {
+      background-color: #046E40 !important;
+    }
+    
+    .bg-light-custom {
+      background: linear-gradient(to right, rgba(201, 239, 225, 0.23) 0%, rgba(201, 239, 225, 0.25) 100%);
+    }
+    
+    .btn-test {
+      border: 2px solid white;
+      font-weight: 600;
+    }
+    
+    .card-custom {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .about-img {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .footer {
+      background-color: #046E40;
+      color: white;
+      padding: 40px 0;
+    }

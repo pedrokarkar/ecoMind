@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style/registrar.css">
+</head>
+<body>
+    <header>
+        <img src="/img/logo footer.png" alt="logo" height="40">
+        <h1>EcoMind</h1>
+        <a href="/" class="Voltar">Voltar</a>
+    </header>
+    <main>
+        <div class="login-container">
+        <div class="logo">
+            <img src="img/IconR.png" alt="Login Icon">
+        </div>
+        <h2>Crie uma nova conta</h2>
+        <form action="/register" method="POST">
+            <input type="text" id="nome" name="nome" placeholder="Nome de usuario" required >
+            <input type="email" id="email" name="email" placeholder="E-mail" required>
+            <input type="password" id="senha" name="senha" placeholder="Senha" required>
+            <button type="submit">Criar</button>
+        </form>
+        <p>Ja tem uma conta? </p>
+        <a href="/login">Entre</a>
+    </div>
+    </main>
+
+</body>
+</html>

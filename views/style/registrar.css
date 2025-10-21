@@ -1,0 +1,130 @@
+    body {
+        margin: 0;
+        height: 100vh; 
+        background: linear-gradient( to bottom, #88E8C0 33%, #FFFFFF 83% ),  
+        url('/img/mundo.png'); 
+        background-size: cover; 
+        background-position: center;
+    }
+
+    header{
+        display: flex;
+        flex-direction: row;
+        padding: 10px;
+        margin: 10px;
+        align-items: center;
+        color: #046E40;
+    }
+
+
+    main {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+        background: linear-gradient( to bottom, #88E8C0 33%, #FFFFFF 83% ),  
+
+    }
+
+    .login-container {
+        border-radius: 30px;
+        padding: 30px;
+        width: 500px;
+        height: 500px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.582);
+        text-align: center;
+        justify-content: space-between;
+        background-color: rgb(255, 255, 255);
+        align-items: center;
+    }
+
+    .logo img {
+        width: 39px;
+        height: 42px;
+        margin-bottom: 15px;
+        margin: 10px;
+        padding: 20px;
+        background-color: #ffffff1e;
+        border-radius: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.582);
+    }
+
+    h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #000000;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        width: 425px;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+        background-color: #E9E9E9;
+    }
+
+    button {
+        width: 425px;
+        padding: 14px;
+        background-color: #046E40;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    p {
+        margin-top: 15px;
+        color: #7C7979;
+        font-size: 19px;
+    }
+
+    a {
+        color: #046E40;
+        text-decoration: none;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    button a {
+        color: white;
+    }
+
+    .Voltar {
+        margin-left: auto;
+        padding: 10px 15px;
+        background-color: #046E40;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 14px;
+    }
+
+    #email {
+        padding-left: 30px; 
+        background-image: url('/img/mail.png'); 
+        background-repeat: no-repeat;
+        background-position: 10px center; 
+        background-size: 20px 20px; 
+    }
+
+    #senha {
+        padding-left: 30px; 
+        background-image: url('/img/senha.png'); 
+        background-repeat: no-repeat;
+        background-position: 10px center; 
+        background-size: 20px 20px; 
+    }
+
+    #nome{
+        padding-left: 30px; 
+        background-image: url('/img/nome.png'); 
+        background-repeat: no-repeat;
+        background-position: 10px center; 
+        background-size: 20px 20px;
+    }

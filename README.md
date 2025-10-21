@@ -1,0 +1,31 @@
+Para instalar as dependências necessárias para iniciar este processo, siga os passos abaixo no terminal:
+
+-Instale o Express, um framework para aplicações web em Node.js, executando o seguinte comando:
+npm install express
+
+-Instale o MongoDB, o driver oficial para interagir com o banco de dados MongoDB, usando o comando:
+npm install mongodb
+
+-Instale o Bcrypt, uma biblioteca para hashing de senhas, com o comando:
+npm install bcrypt
+
+-Instale o Express-session, um middleware para gerenciamento de sessões em aplicações Express, executando:
+npm install express-session
+
+-Após instalar as dependências, para iniciar a aplicação, execute o seguinte comando no terminal:
+node index.js
+
+
+Este projeto foi desenvolvido com o objetivo de criar uma plataforma web focada na promoção da sustentabilidade e na conscientização ambiental. 
+A aplicação permite que os usuários se registrem, realizem login e acessem conteúdos relacionados a práticas sustentáveis, dicas ecológicas e notícias 
+ambientais. A proposta visa incentivar a educação ambiental e fomentar ações positivas em prol do meio ambiente, oferecendo uma interface intuitiva e acessível.
+
+O projeto foi elaborado como parte de um trabalho escolar do 2º ano do Ensino Médio na FIAP, com a apresentação prevista para a Future Fest de 2025,
+com o intuito de demonstrar tudo o que aprendemos ao longo deste ano.
+
+- Integrantes do grupo:
+- Abdalla El Dib
+- Arthur Carvalho Rocco Pessoa
+- Gabriel Martins de Castro
+- Mateus Santos Baggio
+- Pedro Antonio Ballan Djekem Karkar
