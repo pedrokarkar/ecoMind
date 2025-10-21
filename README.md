@@ -1,16 +1,7 @@
 Para instalar as dependências necessárias para iniciar este processo, siga os passos abaixo no terminal:
 
--Instale o Express, um framework para aplicações web em Node.js, executando o seguinte comando:
-npm install express
-
--Instale o MongoDB, o driver oficial para interagir com o banco de dados MongoDB, usando o comando:
-npm install mongodb
-
--Instale o Bcrypt, uma biblioteca para hashing de senhas, com o comando:
-npm install bcrypt
-
--Instale o Express-session, um middleware para gerenciamento de sessões em aplicações Express, executando:
-npm install express-session
+-Instala toda as dependências necessárias para iniciar a aplicação:
+npm install 
 
 -Após instalar as dependências, para iniciar a aplicação, execute o seguinte comando no terminal:
 node index.js
