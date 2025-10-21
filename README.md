@@ -25,10 +25,10 @@ com o intuito de demonstrar tudo o que aprendemos ao longo deste ano.
 - Mateus Santos Baggio
 - Pedro Antonio Ballan Djekem Karkar
 
-para alterar no gitRUB:
-    git add .
-    git commit -m "mensagem"
-    git push
+<p>para alterar no github:</p>
+    -git add .
+    -git commit -m "mensagem"
+    -git push
 
-para puxar do github:
-    git pull
+<p>para puxar do github:</p>
+   - git pull
