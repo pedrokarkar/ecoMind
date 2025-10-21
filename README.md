@@ -1,5 +1,5 @@
 <h1>EcoMind</h1>
-
+teste
 <h3>Para instalar as dependências necessárias para iniciar este processo, siga os passos abaixo no terminal:</h3>
 
 ### 1. -Instala toda as dependências necessárias para iniciar a aplicação:
