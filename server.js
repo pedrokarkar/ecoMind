@@ -17,7 +17,7 @@ resave: false,
 saveUninitialized: true, 
 }));
 
-const urlMongo = "api_chave_vibe_condinggg"; 
+const urlMongo = "mongodb://localhost:27017"; 
 const nomeBanco = 'EcoMind';
 
 app.get('/', (req, res) =>{
@@ -101,7 +101,7 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/bemvindo', protegerRota,  (req, res) => {
-    res.send(`Olá <br>  <a href="/sair">voltar</a> `)
+    res.send(`Olá ${req.session.email}<br>  <a href="/sair">voltar</a> `)
 });-
 
 app.get('/exRotaProtegida', protegerRota, (req, res) => {
