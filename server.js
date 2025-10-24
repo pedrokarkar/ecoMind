@@ -6,11 +6,9 @@ const app = express();
 const porta = 3000;
 const path = require('path');
 
-// Servir arquivos estáticos
 app.use('/img', express.static(path.join(__dirname, 'views', 'img')));
 app.use('/style', express.static(path.join(__dirname, 'views', 'style')));
 
-// Configurações do Express
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(session({
@@ -22,7 +20,6 @@ app.use(session({
 const urlMongo = "mongodb://localhost:27017";
 const nomeBanco = 'EcoMind';
 
-// Middleware para proteger rotas
 function protegerRota(req, res, proximo) {
     if (req.session.email) {
         proximo();
@@ -31,17 +28,14 @@ function protegerRota(req, res, proximo) {
     }
 }
 
-// Rota inicial
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/views/home.html');
 });
 
-// Página de registro
 app.get('/register', (req, res) => {
     res.sendFile(__dirname + '/views/registrar.html');
 });
 
-// Registro de usuário
 app.post('/register', async (req, res) => {
     const cliente = new MongoClient(urlMongo);
     try {
@@ -69,12 +63,10 @@ app.post('/register', async (req, res) => {
     }
 });
 
-// Página de login
 app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/views/login.html');
 });
 
-// Lógica de login
 app.post('/login', async (req, res) => {
     const cliente = new MongoClient(urlMongo);
     try {
@@ -98,12 +90,10 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// Página protegida: Dashboard
 app.get('/dashboard', protegerRota, (req, res) => {
     res.sendFile(__dirname + '/views/dashboard.html');
 });
 
-// Rota para buscar nome do usuário logado
 app.get('/api/usuario', protegerRota, async (req, res) => {
     const cliente = new MongoClient(urlMongo);
     try {
@@ -126,12 +116,10 @@ app.get('/api/usuario', protegerRota, async (req, res) => {
     }
 });
 
-// Página de erro
 app.get('/erro', (req, res) => {
     res.sendFile(__dirname + '/views/erro.html');
 });
 
-// Logout
 app.get('/sair', (req, res) => {
     req.session.destroy((err) => {
         if (err) {
@@ -141,7 +129,6 @@ app.get('/sair', (req, res) => {
     });
 });
 
-// Iniciar servidor
 app.listen(porta, () => {
     console.log(`Servidor rodando em: http://localhost:${porta}`);
 });
