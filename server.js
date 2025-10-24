@@ -1,135 +1,147 @@
-const express = require('express'); 
-const MongoClient = require('mongodb').MongoClient; 
-const session = require('express-session'); 
-const bcrypt = require('bcrypt'); 
-const app = express(); 
-const porta = 3000; 
-const path = require('path')
+const express = require('express');
+const MongoClient = require('mongodb').MongoClient;
+const session = require('express-session');
+const bcrypt = require('bcrypt');
+const app = express();
+const porta = 3000;
+const path = require('path');
 
+// Servir arquivos estáticos
 app.use('/img', express.static(path.join(__dirname, 'views', 'img')));
 app.use('/style', express.static(path.join(__dirname, 'views', 'style')));
 
-app.use(express.urlencoded({extended: true })); 
-app.use(express.json()); 
+// Configurações do Express
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(session({
-secret: 'arrozEfeijao', 
-resave: false, 
-saveUninitialized: true, 
+    secret: 'arrozEfeijao',
+    resave: false,
+    saveUninitialized: true,
 }));
 
-const urlMongo = "mongodb://localhost:27017"; 
+const urlMongo = "mongodb://localhost:27017";
 const nomeBanco = 'EcoMind';
 
-app.get('/', (req, res) =>{
-    res.sendFile(__dirname + '/views/home.html')
-})
-
-
-app.get('/register', (req, res) => {
-    res.sendFile(__dirname + '/views/registrar.html');
-});
-
-app.post('/register', async (req, res) => {
-        const cliente = new MongoClient(urlMongo); 
-        try{  
-            await cliente.connect();
-            const banco = cliente.db(nomeBanco); 
-            const colecaoUsuarios = banco.collection('usuarios'); 
-
-            const usuarioExistente = await colecaoUsuarios.findOne({ email: req.body.email });
-            if (usuarioExistente) {
-            res.send('Usuário já existe! Tente outro nome de usuário.');
-            }else{
-                const senhaCriptografada = await bcrypt.hash(req.body.senha, 10);
-
-                await colecaoUsuarios.insertOne({
-                    nome: req.body.nome,
-                    email: req.body.email, 
-                    senha: senhaCriptografada 
-                });
-                res.redirect('/login'); 
-            }
-        } catch (erro) {
-            res.send('Erro ao registrar o usuário.'); 
-        } finally {
-            cliente.close();
-        }   
-    });
-
-app.get('/login', (req, res) => {
-    res.sendFile(__dirname + '/views/login.html'); 
-});
-
-
-    app.post('/login', async (req, res) => {
-        const cliente = new MongoClient(urlMongo);
-
-
-        try {
-            await cliente.connect(); 
-            const banco = cliente.db(nomeBanco); 
-            const colecaoUsuarios = banco.collection('usuarios'); 
-
-            const email = await colecaoUsuarios.findOne({ email: req.body.email });
-
-
-            if (email && await bcrypt.compare(req.body.senha, email.senha)) {
-                req.session.email = req.body.email; 
-                res.redirect('/bemvindo'); 
-            } else {
-                res.redirect('/erro'); 
-            }
-
-        } catch (erro) {
-            console.error(erro);
-            res.send('Erro ao realizar login.');
-        } finally {
-            cliente.close(); 
-        }
-    });
-
-function protegerRota(req, res, proximo){
-    if(req.session.email){
+// Middleware para proteger rotas
+function protegerRota(req, res, proximo) {
+    if (req.session.email) {
         proximo();
-    } else{
+    } else {
         res.redirect('/login');
     }
 }
 
+// Rota inicial
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/views/home.html');
+});
+
+// Página de registro
+app.get('/register', (req, res) => {
+    res.sendFile(__dirname + '/views/registrar.html');
+});
+
+// Registro de usuário
+app.post('/register', async (req, res) => {
+    const cliente = new MongoClient(urlMongo);
+    try {
+        await cliente.connect();
+        const banco = cliente.db(nomeBanco);
+        const colecaoUsuarios = banco.collection('usuarios');
+
+        const usuarioExistente = await colecaoUsuarios.findOne({ email: req.body.email });
+        if (usuarioExistente) {
+            res.send('Usuário já existe! Tente outro e-mail.');
+        } else {
+            const senhaCriptografada = await bcrypt.hash(req.body.senha, 10);
+            await colecaoUsuarios.insertOne({
+                nome: req.body.nome,
+                email: req.body.email,
+                senha: senhaCriptografada
+            });
+            res.redirect('/login');
+        }
+    } catch (erro) {
+        console.error(erro);
+        res.send('Erro ao registrar o usuário.');
+    } finally {
+        cliente.close();
+    }
+});
+
+// Página de login
 app.get('/login', (req, res) => {
-    res.sendFile(__dirname + '/views/login.html'); 
+    res.sendFile(__dirname + '/views/login.html');
 });
 
-app.get('/bemvindo', protegerRota,  (req, res) => {
-    res.send(`Olá ${req.session.email}<br>  <a href="/sair">voltar</a> `)
-});-
+// Lógica de login
+app.post('/login', async (req, res) => {
+    const cliente = new MongoClient(urlMongo);
+    try {
+        await cliente.connect();
+        const banco = cliente.db(nomeBanco);
+        const colecaoUsuarios = banco.collection('usuarios');
 
-app.get('/exRotaProtegida', protegerRota, (req, res) => {
-    res.send(`Olá, ${req.session.usuario}!<br>  <a href="/#">voltar</a>`);
+        const usuario = await colecaoUsuarios.findOne({ email: req.body.email });
+
+        if (usuario && await bcrypt.compare(req.body.senha, usuario.senha)) {
+            req.session.email = usuario.email;
+            res.redirect('/dashboard');
+        } else {
+            res.redirect('/erro');
+        }
+    } catch (erro) {
+        console.error(erro);
+        res.send('Erro ao realizar login.');
+    } finally {
+        cliente.close();
+    }
 });
 
-app.get('/exRotaProtegida', protegerRota, (req, res) => {
-    res.send(`Olá, ${req.session.usuario}! <br> <a href="/#">voltar</a>`);
+// Página protegida: Dashboard
+app.get('/dashboard', protegerRota, (req, res) => {
+    res.sendFile(__dirname + '/views/dashboard.html');
 });
 
-app.get('/exRotaProtegida', protegerRota, (req, res) => {
-    res.send(`Olá, ${req.session.usuario}! <br>  <a href="/#">voltar</a> `);
+// Rota para buscar nome do usuário logado
+app.get('/api/usuario', protegerRota, async (req, res) => {
+    const cliente = new MongoClient(urlMongo);
+    try {
+        await cliente.connect();
+        const banco = cliente.db(nomeBanco);
+        const colecaoUsuarios = banco.collection('usuarios');
+
+        const usuario = await colecaoUsuarios.findOne({ email: req.session.email });
+
+        if (usuario) {
+            res.json({ nome: usuario.nome });
+        } else {
+            res.status(404).json({ erro: "Usuário não encontrado" });
+        }
+    } catch (erro) {
+        console.error(erro);
+        res.status(500).json({ erro: "Erro ao buscar dados do usuário" });
+    } finally {
+        cliente.close();
+    }
 });
 
+// Página de erro
 app.get('/erro', (req, res) => {
-    res.sendFile(__dirname + '/views/erro.html'); 
+    res.sendFile(__dirname + '/views/erro.html');
 });
 
-
+// Logout
 app.get('/sair', (req, res) => {
-    req.session.destroy((err) => { 
+    req.session.destroy((err) => {
         if (err) {
-            return res.send('Erro ao sair!'); 
+            return res.send('Erro ao sair!');
         }
         res.redirect('/');
-        });
     });
+});
 
+// Iniciar servidor
 app.listen(porta, () => {
-    console.log(`Servidor rodando na porta http://localhost:${porta}`); 
+    console.log(`Servidor rodando em: http://localhost:${porta}`);
 });
