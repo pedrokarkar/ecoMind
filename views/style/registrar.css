@@ -1,10 +1,14 @@
+    html{
+        zoom:0.8;
+    }
     body {
         margin: 0;
-        height: 100vh; 
-        background: linear-gradient( to bottom, #88E8C0 33%, #FFFFFF 83% ),  
+        height: 129vh; 
+        background: #046E40;
         url('/img/mundo.png'); 
         background-size: cover; 
         background-position: center;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
 
     header{
@@ -13,7 +17,7 @@
         padding: 10px;
         margin: 10px;
         align-items: center;
-        color: #046E40;
+        color:rgb(255, 255, 255);
     }
 
 
@@ -22,7 +26,6 @@
         display: flex;
         justify-content: center;
         align-items: center; 
-        background: linear-gradient( to bottom, #88E8C0 33%, #FFFFFF 83% ),  
 
     }
 
@@ -52,12 +55,10 @@
     h2 {
         font-size: 24px;
         margin-bottom: 20px;
-        color: #000000;
+        color:rgb(0, 0, 0);
     }
 
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
+    input {
         width: 425px;
         padding: 10px;
         margin: 10px 0;
@@ -68,7 +69,7 @@
     }
 
     button {
-        width: 425px;
+        width: 325px;
         padding: 14px;
         background-color: #046E40;
         color: white;
@@ -92,14 +93,14 @@
     }
 
     button a {
-        color: white;
+        color: black;
     }
 
     .Voltar {
         margin-left: auto;
         padding: 10px 15px;
-        background-color: #046E40;
-        color: white;
+        color: #046E40;
+        background-color: #fff;
         text-decoration: none;
         border-radius: 8px;
         font-size: 14px;

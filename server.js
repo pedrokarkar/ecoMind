@@ -17,7 +17,7 @@ app.use(session({
     saveUninitialized: true,
 }));
 
-const urlMongo = "mongodb://localhost:27017";
+const urlMongo = "mongodb+srv://EcoMind:ecomindprojetofiap@ecomind.3ioosra.mongodb.net/?retryWrites=true&w=majority&appName=EcoMind";
 const nomeBanco = 'EcoMind';
 
 function protegerRota(req, res, proximo) {
