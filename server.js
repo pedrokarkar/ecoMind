@@ -45,7 +45,7 @@ app.post('/register', async (req, res) => {
 
         const usuarioExistente = await colecaoUsuarios.findOne({ email: req.body.email });
         if (usuarioExistente) {
-            res.send('Usuário já existe! Tente outro e-mail.');
+            res.send('Email ja cadastrado, tente novamente <br> <a href="/register" class="btn btn-primary">voltar</a>');
         } else {
             const senhaCriptografada = await bcrypt.hash(req.body.senha, 10);
             await colecaoUsuarios.insertOne({
@@ -92,28 +92,6 @@ app.post('/login', async (req, res) => {
 
 app.get('/dashboard', protegerRota, (req, res) => {
     res.sendFile(__dirname + '/views/dashboard.html');
-});
-
-app.get('/api/usuario', protegerRota, async (req, res) => {
-    const cliente = new MongoClient(urlMongo);
-    try {
-        await cliente.connect();
-        const banco = cliente.db(nomeBanco);
-        const colecaoUsuarios = banco.collection('usuarios');
-
-        const usuario = await colecaoUsuarios.findOne({ email: req.session.email });
-
-        if (usuario) {
-            res.json({ nome: usuario.nome });
-        } else {
-            res.status(404).json({ erro: "Usuário não encontrado" });
-        }
-    } catch (erro) {
-        console.error(erro);
-        res.status(500).json({ erro: "Erro ao buscar dados do usuário" });
-    } finally {
-        cliente.close();
-    }
 });
 
 app.get('/erro', (req, res) => {
