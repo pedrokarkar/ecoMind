@@ -21,8 +21,13 @@
     .btn-test {
       border: 2px solid white;
       font-weight: 600;
+      background-color: transparent  !important ;
     }
-    
+    .btn-test:hover {
+    background-color: #f8f9fa68 !important; 
+    color: #000 !important; 
+    }
+
     .card-custom {
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
