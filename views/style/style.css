@@ -35,9 +35,23 @@
     .about-img {
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
-    
-    .footer {
+
+  .blockquote p {
+    font-size: 20px;
+  }
+
+  .card-custom1 {
+    width: 386px;
+    height: 496px;
+    background-color: #F2F2F2;
+  }
+
+  .nome {
+    font-size: 20px;
+  }
+
+  .footer {
       background-color: #046E40;
       color: white;
       padding: 40px 0;
-    }
+  }
