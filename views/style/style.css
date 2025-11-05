@@ -41,8 +41,9 @@
   }
 
   .card-custom1 {
-    width: 386px;
-    height: 496px;
+    margin-bottom:10px;
+    width: 380px;
+    height: 500px;
     background-color: #F2F2F2;
   }
 
