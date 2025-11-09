@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulário - EcoMind</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/style/style.css">
+  <link rel="stylesheet" href="/style/dashboard.css">
+</head>
+<body>
+  <header id="header" class="bg-primary-custom py-3 position-fixed w-100 top-0 z-3">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+          <img src="/img/logo.png" alt="logo" height="55" class="me-2">
+          <h1 class="text-white m-0 fs-2">EcoMind</h1>
+        </div>
+        
+        <nav class="d-flex align-items-center">
+          <button class="btn btn-light" style="color: #000000; padding: 10px 20px; font-weight: 600;">
+            <a href="/dashboard" style="text-decoration: none; color: inherit;">Voltar</a>
+          </button>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 100px;">
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <h1 class="display-4 fw-bold mb-2 text-center">Vamos Lá!</h1>
+          <p class="text-center mb-5 text-muted">Responda as perguntas com sinceridade.</p>
+          
+          <form id="formularioSustentabilidade" method="POST" action="/formulario">
+            <div class="form-section blue">
+              <div class="form-question">Quantos funcionários sua empresa possui?</div>
+              <div class="form-radio-group">
+                <div class="form-radio-option">
+                  <input type="radio" id="funcionarios1" name="funcionarios" value="1-10" required>
+                  <label for="funcionarios1">1-10</label>
+                </div>
+                <div class="form-radio-option">
+                  <input type="radio" id="funcionarios2" name="funcionarios" value="11-50" required>
+                  <label for="funcionarios2">11-50</label>
+                </div>
+                <div class="form-radio-option">
+                  <input type="radio" id="funcionarios3" name="funcionarios" value="51-200" required>
+                  <label for="funcionarios3">51-200</label>
+                </div>
+                <div class="form-radio-option">
+                  <input type="radio" id="funcionarios4" name="funcionarios" value="200+" required>
+                  <label for="funcionarios4">200+</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section blue">
+              <div class="form-question">Qual é o principal setor de atuação da empresa?</div>
+              <div class="form-radio-group">
+                <div class="form-radio-option">
+                  <input type="radio" id="setor1" name="setor" value="Serviço" required>
+                  <label for="setor1">Serviço</label>
+                </div>
+                <div class="form-radio-option">
+                  <input type="radio" id="setor2" name="setor" value="Indústria" required>
+                  <label for="setor2">Indústria</label>
+                </div>
+                <div class="form-radio-option">
+                  <input type="radio" id="setor3" name="setor" value="Comércio" required>
+                  <label for="setor3">Comércio</label>
+                </div>
+                <div class="form-radio-option">
+                  <input type="radio" id="setor4" name="setor" value="Tecnologia" required>
+                  <label for="setor4">Tecnologia</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section blue">
+              <div class="form-question">Sua empresa possui algum controle sobre o consumo mensal de energia elétrica?</div>
+              <div class="form-radio-group">
+                <div class="form-radio-option">
+                  <input type="radio" id="energia1" name="controleEnergia" value="Sim" required>
+                  <label for="energia1">Sim</label>
+                </div>
+                <div class="form-radio-option">
+                  <input type="radio" id="energia2" name="controleEnergia" value="Não" required>
+                  <label for="energia2">Não</label>
+                </div>
+                <div class="form-radio-option">
+                  <input type="radio" id="energia3" name="controleEnergia" value="Parcial" required>
+                  <label for="energia3">Parcial</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section green">
+              <div class="form-question">Quais práticas sua empresa adota para reduzir o consumo de energia (ex: iluminação natural, painéis solares, etc.)?</div>
+              <textarea class="form-textarea" name="praticasEnergia" placeholder="Sua resposta" rows="4"></textarea>
+            </div>
+
+            <div class="form-section blue">
+              <div class="form-question">Sua empresa mede ou acompanha o consumo de água?</div>
+              <div class="form-radio-group">
+                <div class="form-radio-option">
+                  <input type="radio" id="agua1" name="controleAgua" value="Sim" required>
+                  <label for="agua1">Sim</label>
+                </div>
+                <div class="form-radio-option">
+                  <input type="radio" id="agua2" name="controleAgua" value="Não" required>
+                  <label for="agua2">Não</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section green">
+              <div class="form-question">Como é feita a destinação dos resíduos (lixo comum, recicláveis, rejeitos)?</div>
+              <textarea class="form-textarea" name="destinacaoResiduos" placeholder="Sua resposta" rows="4"></textarea>
+            </div>
+
+            <div class="form-section blue">
+              <div class="form-question">A empresa realiza alguma forma de compensação de carbono ou reflorestamento?</div>
+              <div class="form-radio-group">
+                <div class="form-radio-option">
+                  <input type="radio" id="carbono1" name="compensacaoCarbono" value="Sim" required>
+                  <label for="carbono1">Sim</label>
+                </div>
+                <div class="form-radio-option">
+                  <input type="radio" id="carbono2" name="compensacaoCarbono" value="Não" required>
+                  <label for="carbono2">Não</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section green">
+              <div class="form-question">Descreva brevemente alguma ação ambiental, social ou de sustentabilidade que sua empresa realiza ou pretende realizar.</div>
+              <textarea class="form-textarea" name="acoesSustentabilidade" placeholder="Sua resposta" rows="4"></textarea>
+            </div>
+
+            <div class="text-center mt-5 mb-5">
+              <button type="submit" class="btn-submit">Submeter</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

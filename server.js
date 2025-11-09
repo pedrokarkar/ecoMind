@@ -1,4 +1,5 @@
 const express = require('express');
+const OpenAI = require('openai');
 const MongoClient = require('mongodb').MongoClient;
 const session = require('express-session');
 const bcrypt = require('bcrypt');
@@ -92,6 +93,10 @@ app.post('/login', async (req, res) => {
 
 app.get('/dashboard', protegerRota, (req, res) => {
     res.sendFile(__dirname + '/views/dashboard.html');
+});
+
+app.get('/formulario', protegerRota, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'formulario.html'));
 });
 
 app.get('/erro', (req, res) => {
