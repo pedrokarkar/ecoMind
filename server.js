@@ -3,6 +3,7 @@ const OpenAI = require('openai');
 const MongoClient = require('mongodb').MongoClient;
 const session = require('express-session');
 const bcrypt = require('bcrypt');
+const fs = require('fs');
 const app = express();
 const porta = 3000;
 const path = require('path');
@@ -68,6 +69,29 @@ app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/views/login.html');
 });
 
+app.get('/dashboard', protegerRota, async (req, res) => {
+    const cliente = new MongoClient(urlMongo);
+
+    try {
+        await cliente.connect();
+        const banco = cliente.db(nomeBanco);
+        const colecaoUsuarios = banco.collection('usuarios');
+
+        const usuario = await colecaoUsuarios.findOne({ email: req.session.email });
+
+        let html = fs.readFileSync(__dirname + '/views/dashboard.html', 'utf8');
+        html = html.replace(/{{NOME_USUARIO}}/g, usuario?.nome || '');
+
+        res.send(html);
+
+    } catch (err) {
+        console.error(err);
+        res.send("Erro ao carregar dashboard.");
+    } finally {
+        await cliente.close();
+    }
+});
+
 app.post('/login', async (req, res) => {
     const cliente = new MongoClient(urlMongo);
     try {
@@ -89,10 +113,6 @@ app.post('/login', async (req, res) => {
     } finally {
         cliente.close();
     }
-});
-
-app.get('/dashboard', protegerRota, (req, res) => {
-    res.sendFile(__dirname + '/views/dashboard.html');
 });
 
 app.get('/formulario', protegerRota, (req, res) => {
