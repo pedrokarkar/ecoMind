@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recomendações - EcoMind</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/style/style.css">
+  <link rel="stylesheet" href="/style/dashboard.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    
+    .nota-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .nota-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+    
+    .nota-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .nota-label {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin: 0;
+    }
+    
+    .nota-valor {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+    
+    .nota-bar-container {
+      background-color: #e9ecef;
+      border-radius: 12px;
+      height: 12px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .nota-bar-fill {
+      height: 100%;
+      border-radius: 12px;
+      transition: width 0.8s ease;
+      background: linear-gradient(90deg, var(--color-start), var(--color-end));
+    }
+    
+    .nota-vermelha {
+      --color-start: #ff4757;
+      --color-end: #ff6b7a;
+    }
+    
+    .nota-laranja {
+      --color-start: #ffa502;
+      --color-end: #ffb84d;
+    }
+    
+    .nota-verde {
+      --color-start: #2ed573;
+      --color-end: #5ee89f;
+    }
+    
+    .recomendacoes-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      height: 100%;
+    }
+    
+    .recomendacoes-card h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #e9ecef;
+    }
+    
+    .recomendacoes-section {
+      margin-bottom: 2rem;
+    }
+    
+    .recomendacoes-section:last-child {
+      margin-bottom: 0;
+    }
+    
+    .recomendacoes-section h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #34495e;
+      margin-bottom: 1rem;
+    }
+    
+    .recomendacoes-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .recomendacoes-list li {
+      padding: 0.75rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      color: #555;
+      line-height: 1.6;
+      font-size: 0.95rem;
+      border-bottom: 1px solid #f1f3f5;
+    }
+    
+    .recomendacoes-list li:last-child {
+      border-bottom: none;
+    }
+    
+    .recomendacoes-list li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: #046E40;
+      font-weight: bold;
+    }
+    
+    .page-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+    }
+    
+    .page-subtitle {
+      color: #7f8c8d;
+      margin-bottom: 2.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header id="header" class="bg-primary-custom py-3 position-fixed w-100 top-0 z-3">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+          <img src="/img/logo.png" alt="logo" height="55" class="me-2">
+          <h1 class="text-white m-0 fs-2">EcoMind</h1>
+        </div>
+        
+        <nav class="d-flex align-items-center gap-3">
+          <button class="btn btn-light" style="color: #000000; padding: 10px 20px; font-weight: 600;">
+            <a href="/dashboard" style="text-decoration: none; color: inherit;">Voltar</a>
+          </button>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 100px;">
+    <div class="container py-5">
+      <h1 class="page-title">Dashboard de {{NOME_USUARIO}}</h1>
+      <p class="page-subtitle">Avaliação de sustentabilidade da sua empresa</p>
+      
+      <div class="row g-4">
+        <!-- Coluna Esquerda: Recomendações e Metas -->
+        <div class="col-lg-5">
+          <div class="recomendacoes-card">
+            <h2>Recomendações e Metas</h2>
+            
+            <div class="recomendacoes-section">
+              <h3>Recomendações</h3>
+              <ul class="recomendacoes-list">
+                {{RECOMENDACOES}}
+              </ul>
+            </div>
+            
+            <div class="recomendacoes-section">
+              <h3>Metas</h3>
+              <ul class="recomendacoes-list">
+                {{METAS}}
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Coluna Direita: Notas -->
+        <div class="col-lg-7">
+          <div class="nota-card">
+            <div class="nota-header">
+              <p class="nota-label">Indicador Geral de Sustentabilidade</p>
+              <span class="nota-valor">{{NOTA_SUSTENTABILIDADE}}/100</span>
+            </div>
+            <div class="nota-bar-container">
+              <div class="nota-bar-fill {{COR_SUSTENTABILIDADE}}" style="width: {{NOTA_SUSTENTABILIDADE}}%"></div>
+            </div>
+          </div>
+          
+          <div class="nota-card">
+            <div class="nota-header">
+              <p class="nota-label">Emissões de CO₂</p>
+              <span class="nota-valor">{{NOTA_EMISSOES}}/100</span>
+            </div>
+            <div class="nota-bar-container">
+              <div class="nota-bar-fill {{COR_EMISSOES}}" style="width: {{NOTA_EMISSOES}}%"></div>
+            </div>
+          </div>
+          
+          <div class="nota-card">
+            <div class="nota-header">
+              <p class="nota-label">Consumo de Energia</p>
+              <span class="nota-valor">{{NOTA_ENERGIA}}/100</span>
+            </div>
+            <div class="nota-bar-container">
+              <div class="nota-bar-fill {{COR_ENERGIA}}" style="width: {{NOTA_ENERGIA}}%"></div>
+            </div>
+          </div>
+          
+          <div class="nota-card">
+            <div class="nota-header">
+              <p class="nota-label">Consumo de Água</p>
+              <span class="nota-valor">{{NOTA_AGUA}}/100</span>
+            </div>
+            <div class="nota-bar-container">
+              <div class="nota-bar-fill {{COR_AGUA}}" style="width: {{NOTA_AGUA}}%"></div>
+            </div>
+          </div>
+          
+          <div class="nota-card">
+            <div class="nota-header">
+              <p class="nota-label">Geração e Destinação de Resíduos</p>
+              <span class="nota-valor">{{NOTA_RESIDUOS}}/100</span>
+            </div>
+            <div class="nota-bar-container">
+              <div class="nota-bar-fill {{COR_RESIDUOS}}" style="width: {{NOTA_RESIDUOS}}%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

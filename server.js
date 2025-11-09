@@ -119,6 +119,204 @@ app.get('/formulario', protegerRota, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'formulario.html'));
 });
 
+app.post('/formulario', protegerRota, async (req, res) => {
+    const cliente = new MongoClient(urlMongo);
+    
+    try {
+        const dadosFormulario = {
+            funcionarios: req.body.funcionarios,
+            setor: req.body.setor,
+            controleEnergia: req.body.controleEnergia,
+            praticasEnergia: req.body.praticasEnergia,
+            controleAgua: req.body.controleAgua,
+            destinacaoResiduos: req.body.destinacaoResiduos,
+            compensacaoCarbono: req.body.compensacaoCarbono,
+            acoesSustentabilidade: req.body.acoesSustentabilidade
+        };
+
+        const openai = new OpenAI({
+            apiKey: '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'
+        });
+
+        const prompt = `Você é um especialista em sustentabilidade empresarial. Analise os seguintes dados de uma empresa e forneça uma avaliação completa.
+        DADOS DA EMPRESA:
+        - Número de funcionários: ${dadosFormulario.funcionarios}
+        - Setor de atuação: ${dadosFormulario.setor}
+        - Controle de energia: ${dadosFormulario.controleEnergia}
+        - Práticas de energia: ${dadosFormulario.praticasEnergia || 'Não informado'}
+        - Controle de água: ${dadosFormulario.controleAgua}
+        - Destinação de resíduos: ${dadosFormulario.destinacaoResiduos || 'Não informado'}
+        - Compensação de carbono: ${dadosFormulario.compensacaoCarbono}
+        - Ações de sustentabilidade: ${dadosFormulario.acoesSustentabilidade || 'Não informado'}
+
+        INSTRUÇÕES:
+        Analise esses dados e retorne APENAS um JSON válido com a seguinte estrutura exata:
+
+        {
+        "notas": {
+            "sustentabilidade": <número de 0 a 100>,
+            "emissoesCO2": <número de 0 a 100>,
+            "consumoEnergia": <número de 0 a 100>,
+            "consumoAgua": <número de 0 a 100>,
+            "geracaoDestinacaoResiduos": <número de 0 a 100>
+        },
+        "recomendacoes": [
+            "<recomendação 1>",
+            "<recomendação 2>",
+            "<recomendação 3>",
+            "<recomendação 4>"
+        ],
+        "metas": [
+            "<meta 1>",
+            "<meta 2>",
+            "<meta 3>",
+            "<meta 4>"
+        ]
+        }
+
+        IMPORTANTE:
+        - Retorne APENAS o JSON, sem texto adicional antes ou depois
+        - As notas devem ser números inteiros de 0 a 100
+        - As recomendações devem ser práticas e específicas para a empresa
+        - As metas devem ser mensuráveis e alcançáveis
+        - Considere o setor e tamanho da empresa na análise`;
+
+        const completion = await openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: [
+                {
+                    role: "system",
+                    content: "Você é um especialista em sustentabilidade empresarial. Sempre retorne apenas JSON válido, sem texto adicional."
+                },
+                {
+                    role: "user",
+                    content: prompt
+                }
+            ],
+            temperature: 0.7,
+            response_format: { type: "json_object" }
+        });
+
+        const respostaTexto = completion.choices[0].message.content;
+        let analise = JSON.parse(respostaTexto);
+
+        await cliente.connect();
+        const banco = cliente.db(nomeBanco);
+        const colecaoFormularios = banco.collection('formularios');
+        const colecaoUsuarios = banco.collection('usuarios');
+
+        const empresa = await colecaoUsuarios.findOne({ email: req.session.email });
+
+        const resultado = await colecaoFormularios.insertOne({
+            emailUsuario: req.session.email,
+            usuarioId: empresa?._id,
+            dadosFormulario: dadosFormulario,
+            analise: analise,
+            dataCriacao: new Date()
+        });
+
+        req.session.ultimaAnaliseId = resultado.insertedId.toString();
+
+        res.redirect('/recomendacoes');
+
+    } catch (erro) {
+        console.error('Erro ao processar formulário:', erro);
+        res.status(500).send('Erro ao processar a análise. Tente novamente. <br> <a href="/formulario">Voltar</a>');
+    } finally {
+        await cliente.close();
+    }
+});
+
+app.get('/recomendacoes', protegerRota, async (req, res) => {
+    const cliente = new MongoClient(urlMongo);
+
+    try {
+        await cliente.connect();
+        const banco = cliente.db(nomeBanco);
+        const colecaoFormularios = banco.collection('formularios');
+        const colecaoUsuarios = banco.collection('usuarios');
+
+        let analiseDoc;
+        if (req.session.ultimaAnaliseId) {
+            const ObjectId = require('mongodb').ObjectId;
+            analiseDoc = await colecaoFormularios.findOne({ 
+                _id: new ObjectId(req.session.ultimaAnaliseId),
+                emailUsuario: req.session.email 
+            });
+        }
+
+        if (!analiseDoc) {
+            analiseDoc = await colecaoFormularios.findOne(
+                { emailUsuario: req.session.email },
+                { sort: { dataCriacao: -1 } }
+            );
+        }
+
+        if (!analiseDoc) {
+            return res.redirect('/formulario');
+        }
+
+        const empresa = await colecaoUsuarios.findOne({ email: req.session.email });
+
+        function getCorClasse(nota) {
+            if (nota < 30) {
+                return 'nota-vermelha';
+            } else if (nota < 75) {
+                return 'nota-laranja';
+            } else {
+                return 'nota-verde';
+            }
+        }
+
+        let html = fs.readFileSync(__dirname + '/views/recomendacoes.html', 'utf8');
+        
+        html = html.replace(/{{NOME_USUARIO}}/g, empresa?.nome || '');
+        
+        const notaSustentabilidade = analiseDoc.analise.notas.sustentabilidade || 0;
+        const notaEmissoes = analiseDoc.analise.notas.emissoesCO2 || 0;
+        const notaEnergia = analiseDoc.analise.notas.consumoEnergia || 0;
+        const notaAgua = analiseDoc.analise.notas.consumoAgua || 0;
+        const notaResiduos = analiseDoc.analise.notas.geracaoDestinacaoResiduos || 0;
+
+        html = html.replace(/{{NOTA_SUSTENTABILIDADE}}/g, notaSustentabilidade);
+        html = html.replace(/{{COR_SUSTENTABILIDADE}}/g, getCorClasse(notaSustentabilidade));
+        
+        html = html.replace(/{{NOTA_EMISSOES}}/g, notaEmissoes);
+        html = html.replace(/{{COR_EMISSOES}}/g, getCorClasse(notaEmissoes));
+        
+        html = html.replace(/{{NOTA_ENERGIA}}/g, notaEnergia);
+        html = html.replace(/{{COR_ENERGIA}}/g, getCorClasse(notaEnergia));
+        
+        html = html.replace(/{{NOTA_AGUA}}/g, notaAgua);
+        html = html.replace(/{{COR_AGUA}}/g, getCorClasse(notaAgua));
+        
+        html = html.replace(/{{NOTA_RESIDUOS}}/g, notaResiduos);
+        html = html.replace(/{{COR_RESIDUOS}}/g, getCorClasse(notaResiduos));
+
+        const recomendacoes = analiseDoc.analise.recomendacoes || [];
+        let recomendacoesHTML = '';
+        recomendacoes.forEach((rec) => {
+            recomendacoesHTML += `<li>${rec}</li>`;
+        });
+        html = html.replace(/{{RECOMENDACOES}}/g, recomendacoesHTML || '<li>Nenhuma recomendação disponível.</li>');
+
+        const metas = analiseDoc.analise.metas || [];
+        let metasHTML = '';
+        metas.forEach((meta) => {
+            metasHTML += `<li>${meta}</li>`;
+        });
+        html = html.replace(/{{METAS}}/g, metasHTML || '<li>Nenhuma meta disponível.</li>');
+
+        res.send(html);
+
+    } catch (err) {
+        console.error(err);
+        res.send("Erro ao carregar recomendações. <br> <a href='/dashboard'>Voltar ao Dashboard</a>");
+    } finally {
+        await cliente.close();
+    }
+});
+
 app.get('/erro', (req, res) => {
     res.sendFile(__dirname + '/views/erro.html');
 });
