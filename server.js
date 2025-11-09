@@ -135,7 +135,7 @@ app.post('/formulario', protegerRota, async (req, res) => {
         };
 
         const openai = new OpenAI({
-            apiKey: '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'
+            apiKey: 'apikey'
         });
 
         const prompt = `Você é um especialista em sustentabilidade empresarial. Analise os seguintes dados de uma empresa e forneça uma avaliação completa.
