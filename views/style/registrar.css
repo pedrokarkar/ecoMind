@@ -32,7 +32,7 @@
         border-radius: 30px;
         padding: 30px;
         width: 500px;
-        height: 500px;
+        height: 550px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.582);
         text-align: center;
         justify-content: space-between;
@@ -122,6 +122,14 @@
     }
 
     #nome{
+        padding-left: 30px; 
+        background-image: url('/img/nome.png'); 
+        background-repeat: no-repeat;
+        background-position: 10px center; 
+        background-size: 20px 20px;
+    }
+
+        #empresa{
         padding-left: 30px; 
         background-image: url('/img/nome.png'); 
         background-repeat: no-repeat;
