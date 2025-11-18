@@ -9,8 +9,13 @@ const porta = 3000;
 const path = require('path');
 require('dotenv').config()
 
+const MongoStore = require('connect-mongo');
+
 app.use('/img', express.static(path.join(__dirname, 'views', 'img')));
 app.use('/style', express.static(path.join(__dirname, 'views', 'style')));
+
+const urlMongo = "mongodb+srv://EcoMind:ecomindprojetofiap@ecomind.3ioosra.mongodb.net/?retryWrites=true&w=majority&appName=EcoMind";
+const nomeBanco = 'EcoMind';
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -18,10 +23,14 @@ app.use(session({
     secret: 'arrozEfeijao',
     resave: false,
     saveUninitialized: true,
+    store: MongoStore.create({
+        mongoUrl: urlMongo,
+        collectionName: 'sessions'
+    }),
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24
+    }
 }));
-
-const urlMongo = "mongodb+srv://EcoMind:ecomindprojetofiap@ecomind.3ioosra.mongodb.net/?retryWrites=true&w=majority&appName=EcoMind";
-const nomeBanco = 'EcoMind';
 
 function protegerRota(req, res, proximo) {
     if (req.session.email) {
