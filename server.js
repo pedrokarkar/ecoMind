@@ -344,3 +344,7 @@ app.get('/sair', (req, res) => {
 app.listen(porta, () => {
     console.log(`Servidor rodando em: http://localhost:${porta}`);
 });
+
+const port = process.env.PORT || 3000;
+app.listen(port);
+
