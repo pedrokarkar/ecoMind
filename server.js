@@ -282,6 +282,7 @@ app.get('/recomendacoes', protegerRota, async (req, res) => {
         let html = fs.readFileSync(__dirname + '/views/recomendacoes.html', 'utf8');
         
         html = html.replace(/{{NOME_USUARIO}}/g, empresa?.nome || '');
+        html = html.replace(/{{EMPRESA_USUARIO}}/g, empresa?.empresa || 'Sem empresa');
         
         const notaSustentabilidade = analiseDoc.analise.notas.sustentabilidade || 0;
         const notaEmissoes = analiseDoc.analise.notas.emissoesCO2 || 0;
