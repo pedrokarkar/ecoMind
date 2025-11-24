@@ -92,7 +92,7 @@ app.get('/dashboard', protegerRota, async (req, res) => {
 
         let html = fs.readFileSync(__dirname + '/views/dashboard.html', 'utf8');
         html = html.replace(/{{NOME_USUARIO}}/g, usuario?.nome || '');
-
+        html = html.replace(/{{EMAIL_USUARIO}}/g, usuario?.email || '');
         res.send(html);
 
     } catch (err) {
